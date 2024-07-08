@@ -1,0 +1,7 @@
+runtime: python310  # or the version you're using
+entrypoint: gunicorn -b :$PORT app:app
+
+instance_class: F2  # Specifies the machine type, adjust based on your needs
+
+env_variables:
+  MODEL_PATH: "model/extra-version3_resnet50_fc_layer4_layer3_tuned_kritika_data_5classes_1channel-images.pth"

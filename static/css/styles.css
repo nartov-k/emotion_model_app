@@ -1,0 +1,87 @@
+/* styles.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #2C2F33;
+    color: #ffffff;
+}
+
+.hero {
+    background-color: #23272A;
+}
+
+.hero-body {
+    padding: 2rem 1.5rem;
+}
+
+.title, .subtitle {
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+.container {
+    margin-top: 2rem;
+}
+
+.field .label {
+    color: #ffffff;
+}
+
+.button.is-primary {
+    background-color: #7289DA;
+    border-color: #7289DA;
+    border-radius: 25px; /* Rounded button */
+    padding: 0.5rem 1.5rem; /* Adjust padding for better appearance */
+}
+
+.button.is-primary:hover {
+    background-color: #5C6BC0;
+    border-color: #5C6BC0;
+}
+
+.control .input {
+    background-color: #99AAB5;
+    border: none;
+    color: #ffffff;
+}
+
+.control .input::placeholder {
+    color: #ffffff;
+}
+
+.control .input:focus {
+    border-color: #7289DA;
+    box-shadow: 0 0 0 0.125em rgba(114, 137, 218, 0.25);
+}
+
+.navbar {
+    background-color: #23272A;
+}
+
+.navbar .navbar-menu .navbar-end .navbar-item {
+    color: #ffffff;
+}
+
+.navbar .navbar-menu .navbar-end .navbar-item:hover {
+    background-color: #7289DA;
+    color: #ffffff;
+}
+
+.navbar .navbar-brand .navbar-item {
+    color: #ffffff;
+    font-size: 1.5rem;
+}
+
+.navbar .navbar-brand .navbar-item:hover {
+    background-color: #7289DA;
+    color: #ffffff;
+}
+
+/* New styles for the form */
+.form-container {
+    background-color: #23272A;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 2rem;
+}

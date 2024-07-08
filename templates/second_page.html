@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Facial Emotion Recognition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <style>
+        /* Background Animation */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .animated-bg::before, 
+        .animated-bg::after,
+        .animated-bg .layer1,
+        .animated-bg .layer2,
+        .animated-bg .layer3 {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2));
+            animation: rotate 30s linear infinite;
+            transform-origin: center;
+        }
+
+        .animated-bg .layer4 {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2));
+            animation: rotate 30s linear infinite;
+            transform-origin: center;
+        }
+
+        .animated-bg .layer1 {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2));
+            animation-delay: -7.5s;
+        }
+
+        .animated-bg .layer2 {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.3));
+            animation-delay: -15s;
+        }
+
+        .animated-bg .layer3 {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.35));
+            animation-delay: -22.5s;
+        }
+
+        .animated-bg .layer4 {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.35));
+            animation-delay: -6.5s;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            /*background-color: #f0f0f0;*/
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .centered-section {
+            background-color: rgba(0, 209, 178, 1);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .centered-section .title {
+            color: white;
+        }
+
+        video {
+            width: 100%;
+            max-width: 640px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        #bounding-box {
+            position: absolute;
+            border: 2px dashed #FF0000;
+            box-sizing: border-box;
+            pointer-events: none; /* Makes the box non-interactive */
+        }
+
+        .navbar {
+            width: 90%;
+            background-color: rgba(0, 209, 178, 1);
+            color: white;
+            margin: 1rem auto;
+            border-radius: 10px;
+            padding: 0.5rem;
+            box-sizing: border-box;
+        }
+
+        .navbar-item {
+            color: white;
+        }
+
+        .navbar-item:hover {
+            text-decoration: underline;
+            background-color: rgba(0, 209, 178, 1) !important; /* Ensure background color stays the same */
+        }
+
+        .navbar-item:focus, .navbar-item:active {
+            background-color: rgba(0, 209, 178, 1) !important; /* Ensure background color stays the same */
+        }
+
+        .prediction {
+            font-size: 2rem;
+            color: white;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animated-bg">
+        <div class="layer1"></div>
+        <div class="layer2"></div>
+        <div class="layer3"></div>
+        <div class="layer4"></div>
+    </div>
+
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{{ url_for('index') }}">Facial Emotion Recognition</a>
+                <a class="navbar-item" href="{{ url_for('second_page') }}">Real-time Emotion Recognition</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <section class="section centered-section">
+            <div class="container">
+                <h1 class="title">Real-time Facial Emotion Recognition</h1>
+                <p>Allow access to your web camera to see the real-time facial emotion recognition. Make sure that you place your face in the red box and that you have good lighting.</p>
+                <div id="prediction" class="prediction">Prediction: N/A</div>
+                <div style="position: relative; display: inline-block;">
+                    <video id="video" autoplay></video>
+                    <div id="bounding-box"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const prediction = document.getElementById('prediction');
+        const boundingBox = document.getElementById('bounding-box');
+
+        // Request access to the web camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                video.onloadedmetadata = () => {
+                    // Set the size and position of the bounding box
+                    updateBoundingBox();
+                };
+            })
+            .catch(err => {
+                console.error('Error accessing webcam: ', err);
+            });
+
+        function updateBoundingBox() {
+            const videoWidth = video.videoWidth;
+            const videoHeight = video.videoHeight;
+            const displayWidth = video.clientWidth;
+            const displayHeight = video.clientHeight;
+
+            const squareSize = Math.min(displayWidth, displayHeight);
+            boundingBox.style.width = `${squareSize}px`;
+            boundingBox.style.height = `${squareSize}px`;
+            boundingBox.style.top = `${(displayHeight - squareSize) / 2}px`;
+            boundingBox.style.left = `${(displayWidth - squareSize) / 2}px`;
+        }
+
+        // Send frames to the server for prediction
+        setInterval(() => {
+            const canvas = document.createElement('canvas');
+            const squareSize = Math.min(video.videoWidth, video.videoHeight);
+            canvas.width = squareSize;
+            canvas.height = squareSize;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, (video.videoWidth - squareSize) / 2, (video.videoHeight - squareSize) / 2, squareSize, squareSize, 0, 0, squareSize, squareSize);
+            const dataUrl = canvas.toDataURL('image/jpeg');
+
+            console.log(`Captured image size: ${dataUrl.length} characters`); // Debugging: Log the size of captured image
+
+            fetch('/predict_frame', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ image: dataUrl })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.emotion) {
+                    prediction.textContent = `Prediction: ${data.emotion}`;
+                } else {
+                    prediction.textContent = 'Prediction: N/A';
+                }
+            })
+            .catch(err => {
+                console.error('Error during prediction: ', err);
+                prediction.textContent = 'Prediction: N/A';
+            });
+        }, 1000); // Adjust the interval as needed
+
+        // Update bounding box when the window is resized
+        window.addEventListener('resize', updateBoundingBox);
+    </script>
+</body>
+</html>
