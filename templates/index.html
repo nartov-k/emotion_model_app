@@ -194,7 +194,7 @@
                     Facial Emotion Recognition
                 </h1>
                 <h3>
-                    This app can recognize your emotions: happiness, sadness, anger, fright, neutrality. <br>Make sure you upload a square high-quality image with good lighting and your face holds the most of an image. Here are some examples:<br>
+                    This app can recognize your emotions: happiness, sadness, anger, fright, neutrality. <br><b>There are two modes of this app: 'single image' and 'real-time'. To switch between them, navigate the menu bar at the top. </b><br>Make sure you upload a square high-quality image with good lighting and your face holds the most of an image. Here are some examples:<br>
                 </h3>
                 
                 <div class="carousel">
@@ -203,7 +203,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear3.jpeg') }}" alt="Happiness">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/happy.jpeg') }}" alt="Happiness">
                                 </figure>
                                 <p>Happiness</p>
                             </div>
@@ -211,7 +211,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear4.png') }}" alt="Sadness">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/sad.jpeg') }}" alt="Sadness">
                                 </figure>
                                 <p>Sadness</p>
                             </div>
@@ -219,7 +219,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear5.png') }}" alt="Anger">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/angry.jpeg') }}" alt="Anger">
                                 </figure>
                                 <p>Anger</p>
                             </div>
@@ -227,7 +227,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/happy2.jpeg') }}" alt="Fright">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear.png') }}" alt="Fright">
                                 </figure>
                                 <p>Fright</p>
                             </div>
@@ -235,7 +235,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/happy2.jpeg') }}" alt="Neutrality">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/neutral.jpeg') }}" alt="Neutrality">
                                 </figure>
                                 <p>Neutrality</p>
                             </div>
@@ -244,7 +244,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear3.jpeg') }}" alt="Happiness">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/happy.jpeg') }}" alt="Happiness">
                                 </figure>
                                 <p>Happiness</p>
                             </div>
@@ -252,7 +252,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear4.png') }}" alt="Sadness">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/sad.jpeg') }}" alt="Sadness">
                                 </figure>
                                 <p>Sadness</p>
                             </div>
@@ -260,7 +260,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear5.png') }}" alt="Anger">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/angry.jpeg') }}" alt="Anger">
                                 </figure>
                                 <p>Anger</p>
                             </div>
@@ -268,7 +268,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/happy2.jpeg') }}" alt="Fright">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear.png') }}" alt="Fright">
                                 </figure>
                                 <p>Fright</p>
                             </div>
@@ -276,7 +276,7 @@
                         <div class="carousel-item">
                             <div class="image-container">
                                 <figure class="image is-128x128">
-                                    <img class="custom-image" src="{{ url_for('static', filename='images/happy2.jpeg') }}" alt="Neutrality">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/neutral.jpeg') }}" alt="Neutrality">
                                 </figure>
                                 <p>Neutrality</p>
                             </div>
@@ -291,6 +291,7 @@
         <form id="upload-form" method="post" enctype="multipart/form-data">
             <div class="field">
                 <label class="label">Upload an image:</label>
+                <div id="result" class="result"></div>
                 <div class="control">
                     <input class="input" type="file" name="file" id="file-input">
                 </div>
@@ -301,7 +302,7 @@
                 </div>
             </div>
         </form>
-        <div id="result" class="result"></div>
+        <!--<div id="result" class="result"></div>-->
     </div>
 
     <script>
