@@ -109,7 +109,7 @@
         }
 
         .button-new {
-            /*margin-bottom: 2rem;*/
+            margin-bottom: 2rem;
         }
 
         .carousel {
@@ -134,10 +134,30 @@
                 transform: translateX(-50%);
             }
         }
+
+        @media (max-width: 768px) {
+            .carousel-track {
+                animation: scroll-mobile 20s linear infinite;
+            }
+            .image-container {
+            margin-right: 1rem; /* Add some space between the image containers */
+        }
+        }
+
+        @keyframes scroll-mobile {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-250%);
+            }
+        }
+
         .label {
             color: rgba(0, 209, 178, 1); /* Change this to your desired color */
             font-size: 1.5rem; /* Adjust the font size as needed */
         }
+
         /* Custom style for result */
         .result {
             font-size: 1.5rem; /* Change this to your desired font size */
@@ -156,6 +176,10 @@
             box-sizing: border-box;
         }
 
+        .navbar-menu {
+            background-color: rgba(0, 209, 178, 1); /* Green background for menu */
+        }
+
         .navbar-item {
             color: white;
         }
@@ -168,6 +192,18 @@
         .navbar-item:focus, .navbar-item:active {
             background-color: rgba(0, 209, 178, 1) !important; /* Ensure background color stays the same */
         }
+
+        .navbar-burger {
+            margin: 0 auto; /* Center the burger icon */
+        }
+
+        .navbar-burger span {
+            background-color: white; /* Ensure the burger icon is white */
+        }
+
+        .navbar-burger.is-active span {
+            background-color: black; /* Change the burger icon color when active */
+        }
     </style>
 </head>
 <body>
@@ -179,14 +215,22 @@
     </div>
 
     <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-menu">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" href="{{ url_for('index') }}">Single image recognition</a>
                 <a class="navbar-item" href="{{ url_for('second_page') }}">Real-time recognition</a>
             </div>
             <div class="navbar-end">
-                <a class="navbar-item" href="https://github.com/nartov-k/emotion_model_app" target="_blank">App's GitHub</a>
-                <a class="navbar-item" href="https://github.com/nartov-k/projects/tree/main/emotion_recognition" target="_blank">ML model's GitHub</a>
+                <a class="navbar-item" href="https://github.com/nartov-k/emotion_model_app" target="_blank">App GitHub</a>
+                <a class="navbar-item" href="https://github.com/nartov-k/projects/tree/main/emotion_recognition" target="_blank">ML model GitHub</a>
             </div>
         </div>
     </nav>
@@ -306,10 +350,30 @@
                 </div>
             </div>
         </form>
-        <!--<div id="result" class="result"></div>-->
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Check if there are any navbar burgers
+            if ($navbarBurgers.length > 0) {
+                // Add a click event on each of them
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        // Get the target from the "data-target" attribute
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+
+                        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+
         document.getElementById('upload-form').addEventListener('submit', function(event) {
             event.preventDefault();
 

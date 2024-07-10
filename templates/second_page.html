@@ -128,6 +128,10 @@
             box-sizing: border-box;
         }
 
+        .navbar-menu {
+            background-color: rgba(0, 209, 178, 1); /* Green background for menu */
+        }
+
         .navbar-item {
             color: white;
         }
@@ -141,10 +145,37 @@
             background-color: rgba(0, 209, 178, 1) !important; /* Ensure background color stays the same */
         }
 
+        .navbar-burger {
+            margin: 0 auto; /* Center the burger icon */
+        }
+
+        .navbar-burger span {
+            background-color: white; /* Ensure the burger icon is white */
+        }
+
+        .navbar-burger.is-active span {
+            background-color: black; /* Change the burger icon color when active */
+        }
+
         .prediction {
             font-size: 2rem;
             color: white;
             margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                margin: 0.25rem auto; /* Further reduce margin for mobile */
+                padding-bottom: 0; /* Remove bottom padding */
+            }
+            .main-container {
+                margin-top: 0; /* Remove top margin */
+                padding-top: 0; /* Remove any additional padding */
+                height: calc(100vh - 200px); /* Adjust height to account for navbar height */
+            }
+            .navbar-brand {
+                justify-content: center; /* Center the navbar burger */
+            }
         }
     </style>
 </head>
@@ -158,14 +189,22 @@
     </div>
 
     <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-menu">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" href="{{ url_for('index') }}">Single image recognition</a>
                 <a class="navbar-item" href="{{ url_for('second_page') }}">Real-time recognition</a>
             </div>
             <div class="navbar-end">
-                <a class="navbar-item" href="https://github.com/nartov-k/emotion_model_app" target="_blank">App's GitHub</a>
-                <a class="navbar-item" href="https://github.com/nartov-k/projects/tree/main/emotion_recognition" target="_blank">ML model's GitHub</a>
+                <a class="navbar-item" href="https://github.com/nartov-k/emotion_model_app" target="_blank">App GitHub</a>
+                <a class="navbar-item" href="https://github.com/nartov-k/projects/tree/main/emotion_recognition" target="_blank">ML model GitHub</a>
             </div>
         </div>
     </nav>
@@ -185,6 +224,27 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Check if there are any navbar burgers
+            if ($navbarBurgers.length > 0) {
+                // Add a click event on each of them
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        // Get the target from the "data-target" attribute
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+
+                        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+        
         const video = document.getElementById('video');
         const prediction = document.getElementById('prediction');
         const boundingBox = document.getElementById('bounding-box');
