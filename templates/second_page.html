@@ -82,24 +82,10 @@
             /*background-color: #f0f0f0;*/
         }
 
-        .main-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        .centered-section {
-            background-color: rgba(0, 209, 178, 1);
-            color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .centered-section .title {
-            color: white;
+        .example-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
         }
 
         video {
@@ -162,21 +148,122 @@
             color: white;
             margin-top: 1rem;
         }
+        
+        .custom-image-guide {
+            max-width: 319px;
+            max-height: 160px;
+            margin: auto; /* Center the image within the figure */
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .rounded-hero {
+            border-radius: 15px; /* Adjust the radius as needed */
+            margin: 2rem; /* Add margin to all sides */
+        }
+        
+        .image-container-guide {
+            margin-top: 1rem;
+            margin: auto;
+        }
 
         @media (max-width: 768px) {
-            .navbar {
-                margin: 0.25rem auto; /* Further reduce margin for mobile */
-                padding-bottom: 0; /* Remove bottom padding */
-            }
             .main-container {
-                margin-top: 0; /* Remove top margin */
-                padding-top: 0; /* Remove any additional padding */
-                height: calc(100vh - 200px); /* Adjust height to account for navbar height */
-            }
-            .navbar-brand {
-                justify-content: center; /* Center the navbar burger */
+                margin: 10px auto;
+                /*margin-bottom: 100px;*/
             }
         }
+
+        /* Additional Styling for carrousel */
+        body {
+            position: relative;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .custom-image {
+            max-width: 128px;
+            max-height: 128px;
+            margin: auto; /* Center the image within the figure */
+        }
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+            margin-right: 6rem; /* Add some space between the image containers */
+        }
+
+        .images-row {
+            display: flex;
+            justify-content: space-around; /* Adjust alignment as needed */
+            flex-wrap: wrap; /* Allow wrapping to prevent overflow */
+        }
+
+        .rounded-hero {
+            border-radius: 15px; /* Adjust the radius as needed */
+            margin: 2rem; /* Add margin to all sides */
+        }
+
+        .button-new {
+            margin-bottom: 2rem;
+        }
+
+        .carousel {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .carousel-track {
+            display: flex;
+            animation: scroll 20s linear infinite;
+        }
+
+        .carousel-item {
+            display: inline-block;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-track {
+                animation: scroll-mobile 20s linear infinite;
+            }
+            .image-container {
+            margin-right: 1rem; /* Add some space between the image containers */
+        }
+        }
+
+        @keyframes scroll-mobile {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-250%);
+            }
+        }
+
+        /*To make more gap between the bottom cotainer and the page bottom*/
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 300px; /* Add this line to create the gap */
+        }
+
     </style>
 </head>
 <body>
@@ -209,19 +296,114 @@
         </div>
     </nav>
 
-    <div class="main-container">
-        <section class="section centered-section">
+  <section class="hero is-primary rounded-hero">
+    <div class="hero-body">
+      <div class="container">
+                <p>Allow access to your web camera to see the real-time facial emotion recognition (happiness, sadness, anger, fright, neutrality). Make sure that your face holds the most of the red frame and that you have good lighting.</p>
+                
+                <div class="carousel">
+                    <div class="carousel-track">
+                        <!-- First set of images -->
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/happy.jpeg') }}" alt="Happiness">
+                                </figure>
+                                <p>Happiness</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/sad.jpeg') }}" alt="Sadness">
+                                </figure>
+                                <p>Sadness</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/angry.jpeg') }}" alt="Anger">
+                                </figure>
+                                <p>Anger</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear.png') }}" alt="Fright">
+                                </figure>
+                                <p>Fright</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/neutral.jpeg') }}" alt="Neutrality">
+                                </figure>
+                                <p>Neutrality</p>
+                            </div>
+                        </div>
+                        <!-- Duplicate set of images -->
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/happy.jpeg') }}" alt="Happiness">
+                                </figure>
+                                <p>Happiness</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/sad.jpeg') }}" alt="Sadness">
+                                </figure>
+                                <p>Sadness</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/angry.jpeg') }}" alt="Anger">
+                                </figure>
+                                <p>Anger</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/fear.png') }}" alt="Fright">
+                                </figure>
+                                <p>Fright</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="image-container">
+                                <figure class="image is-128x128">
+                                    <img class="custom-image" src="{{ url_for('static', filename='images/neutral.jpeg') }}" alt="Neutrality">
+                                </figure>
+                                <p>Neutrality</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-container-guide">
+                  <figure>
+                    <img class='custom-image-guide' src="{{ url_for('static', filename='images/guide.png') }}" alt="Example image" class="example-image">
+                  </figure>
+                </div>
+            </div>
+            
             <div class="container">
-                <h1 class="title">Real-time Facial Emotion Recognition</h1>
-                <p>Allow access to your web camera to see the real-time facial emotion recognition. Make sure that you place your face in the red box and that you have good lighting.</p>
-                <div id="prediction" class="prediction">Prediction: N/A</div>
+              <div id="prediction" class="prediction">Prediction: N/A</div>
                 <div style="position: relative; display: inline-block;">
                     <video id="video" autoplay></video>
                     <div id="bounding-box"></div>
                 </div>
             </div>
-        </section>
     </div>
+  </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -260,6 +442,7 @@
             })
             .catch(err => {
                 console.error('Error accessing webcam: ', err);
+                alert('Error accessing webcam: ' + err.message);
             });
 
         function updateBoundingBox() {
